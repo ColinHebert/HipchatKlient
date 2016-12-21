@@ -4,8 +4,7 @@ import io.hebert.hipchat.api.*
 import io.hebert.hipchat.helper.sendNotification
 
 fun main(args: Array<String>) {
-    HipchatClient("QeHL6Oj1XvtRar37edLOrNWSGrDyl8VzT7GRHjPm").let {
-        System.exit(0)
+    HipchatClient("token").let {
         it.getRoom("Colin Test")?.sendNotification(
                 client = it,
                 notification = Notification(

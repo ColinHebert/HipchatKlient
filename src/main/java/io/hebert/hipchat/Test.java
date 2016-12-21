@@ -10,7 +10,7 @@ import io.hebert.hipchat.helper.HipchatUserHelper;
  */
 public class Test {
     public static void main(String[] args) {
-        HipchatClient hc = new HipchatClient("QeHL6Oj1XvtRar37edLOrNWSGrDyl8VzT7GRHjPm");
+        HipchatClient hc = new HipchatClient("token");
         hc.checkAuthentication();
         UserList allUsers = HipchatUserAPI.getAllUsers(hc, 0, 1);
         UserList nextPage = HipchatUserHelper.getNextPage(allUsers, hc);
