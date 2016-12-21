@@ -2,7 +2,7 @@
 
 package io.hebert.hipchat.api
 
-import io.hebert.hipchat.HipchatClient
+import io.hebert.hipchat.HipchatKlient
 import io.hebert.hipchat.parser.RoomParser
 import java.time.OffsetDateTime
 
@@ -40,7 +40,7 @@ data class Notification(val from: String? = null, val messageFormat: MessageForm
 }
 
 @JvmOverloads
-fun HipchatClient.getAllRooms(startIndex: Int? = null, maxResults: Int? = null, includePrivate: Boolean? = null, includeArchived: Boolean? = null): RoomList {
+fun HipchatKlient.getAllRooms(startIndex: Int? = null, maxResults: Int? = null, includePrivate: Boolean? = null, includeArchived: Boolean? = null): RoomList {
     val parameters = mapOf(
             "start-index" to startIndex,
             "max-results" to maxResults,
@@ -59,7 +59,7 @@ fun HipchatClient.getAllRooms(startIndex: Int? = null, maxResults: Int? = null, 
     )
 }
 
-fun HipchatClient.getRoom(idOrName: String): Room? {
+fun HipchatKlient.getRoom(idOrName: String): Room? {
     return runAgainstApi(
             path = "/v2/room/$idOrName",
             lambda = {
@@ -68,14 +68,14 @@ fun HipchatClient.getRoom(idOrName: String): Room? {
     )
 }
 
-fun HipchatClient.getRoom(idOrName: Int): Room? {
+fun HipchatKlient.getRoom(idOrName: Int): Room? {
     return getRoom(idOrName.toString())
 }
 
-fun HipchatClient.sendMessage(roomIdOrName: String, message: Message) {
+fun HipchatKlient.sendMessage(roomIdOrName: String, message: Message) {
     return runAgainstApi(
             path = "/v2/room/$roomIdOrName/message",
-            request = HipchatClient.RequestType.POST,
+            request = HipchatKlient.RequestType.POST,
             content = RoomParser.builder.toJson(message),
             lambda = {
                 println(it.statusLine.statusCode)
@@ -84,21 +84,21 @@ fun HipchatClient.sendMessage(roomIdOrName: String, message: Message) {
     )
 }
 
-fun HipchatClient.sendMessage(roomIdOrName: Int, message: Message) {
+fun HipchatKlient.sendMessage(roomIdOrName: Int, message: Message) {
     return sendMessage(roomIdOrName.toString(), message)
 }
 
-fun HipchatClient.sendNotification(roomIdOrName: String, notification: Notification) {
-    HipchatClient.logger.debug { "Sending a notification to $roomIdOrName" }
+fun HipchatKlient.sendNotification(roomIdOrName: String, notification: Notification) {
+    HipchatKlient.logger.debug { "Sending a notification to $roomIdOrName" }
     return runAgainstApi(
             path = "/v2/room/$roomIdOrName/notification",
-            request = HipchatClient.RequestType.POST,
+            request = HipchatKlient.RequestType.POST,
             content = RoomParser.builder.toJson(notification),
             lambda = {
             }
     )
 }
 
-fun HipchatClient.sendNotification(roomIdOrName: Int, notification: Notification) {
+fun HipchatKlient.sendNotification(roomIdOrName: Int, notification: Notification) {
     return sendNotification(roomIdOrName.toString(), notification)
 }

@@ -14,7 +14,7 @@ import org.apache.http.message.BasicHeader
 import java.net.URI
 import java.net.URLDecoder
 
-class HipchatClient @JvmOverloads constructor(val token: String,
+class HipchatKlient @JvmOverloads constructor(val token: String,
                                               apiUrl: String = "https://api.hipchat.com",
                                               val httpClient: HttpClient = HttpClients.createMinimal()) {
     companion object : KLogging()
@@ -39,9 +39,9 @@ class HipchatClient @JvmOverloads constructor(val token: String,
         }.build()
 
         val httpRequest = when (request) {
-            HipchatClient.RequestType.GET -> HttpGet(queryURI)
-            HipchatClient.RequestType.POST -> HttpPost(queryURI).apply { entity = StringEntity(content) }
-            HipchatClient.RequestType.PUT -> HttpPut(queryURI).apply { entity = StringEntity(content) }
+            HipchatKlient.RequestType.GET -> HttpGet(queryURI)
+            HipchatKlient.RequestType.POST -> HttpPost(queryURI).apply { entity = StringEntity(content) }
+            HipchatKlient.RequestType.PUT -> HttpPut(queryURI).apply { entity = StringEntity(content) }
         }.apply {
             addHeader(BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json"))
             addHeader(BasicHeader(HttpHeaders.AUTHORIZATION, "Bearer $token"))

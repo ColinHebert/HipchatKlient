@@ -2,7 +2,7 @@
 
 package io.hebert.hipchat.api
 
-import io.hebert.hipchat.HipchatClient
+import io.hebert.hipchat.HipchatKlient
 import io.hebert.hipchat.parser.UserParser
 import java.time.OffsetDateTime
 import java.util.*
@@ -21,7 +21,7 @@ data class User(val name: String, val xmppJid: String, val deleted: Boolean, val
 }
 
 @JvmOverloads
-fun HipchatClient.getAllUsers(startIndex: Int? = null, maxResults: Int? = null, includeGuests: Boolean? = null, includeDeleted: Boolean? = null): UserList {
+fun HipchatKlient.getAllUsers(startIndex: Int? = null, maxResults: Int? = null, includeGuests: Boolean? = null, includeDeleted: Boolean? = null): UserList {
     val parameters = mapOf(
             "start-index" to startIndex,
             "max-results" to maxResults,
@@ -40,14 +40,14 @@ fun HipchatClient.getAllUsers(startIndex: Int? = null, maxResults: Int? = null, 
     )
 }
 
-fun HipchatClient.getUser(idOrEmail: String): User? {
+fun HipchatKlient.getUser(idOrEmail: String): User? {
     return runAgainstApi(
             path = "/v2/user/$idOrEmail",
             lambda = { if (it.statusLine.statusCode != 404) UserParser.builder.fromJson(it.entity.content.reader(), User::class.java) else null }
     )
 }
 
-fun HipchatClient.getUser(idOrEmail: Int): User? {
+fun HipchatKlient.getUser(idOrEmail: Int): User? {
     return getUser(idOrEmail.toString())
 }
 

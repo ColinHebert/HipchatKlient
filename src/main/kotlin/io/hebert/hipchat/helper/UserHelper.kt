@@ -2,11 +2,11 @@
 
 package io.hebert.hipchat.helper
 
-import io.hebert.hipchat.HipchatClient
+import io.hebert.hipchat.HipchatKlient
 import io.hebert.hipchat.api.*
 
 
-fun UserList.getPreviousPage(client: HipchatClient): UserList? {
+fun UserList.getPreviousPage(client: HipchatKlient): UserList? {
     if (previous == null)
         return null
     val (_, parameters) = client.parseUrl(previous)
@@ -19,7 +19,7 @@ fun UserList.getPreviousPage(client: HipchatClient): UserList? {
     )
 }
 
-fun UserList.getNextPage(client: HipchatClient): UserList? {
+fun UserList.getNextPage(client: HipchatKlient): UserList? {
     if (next == null)
         return null
     val (_, parameters) = client.parseUrl(next)
@@ -32,6 +32,6 @@ fun UserList.getNextPage(client: HipchatClient): UserList? {
     )
 }
 
-fun PartialUser.getFullUser(client: HipchatClient): User? {
+fun PartialUser.getFullUser(client: HipchatKlient): User? {
     return client.getUser(id)
 }
